@@ -9,9 +9,12 @@ namespace Evolution
 {
     public class EvolutionInterface
     {
+        public List<DNA> survivorDNA;
+        
 
         public EvolutionInterface()
         {
+            survivorDNA = new List<DNA>();
             //World.numCreatures = (int)Math.Round((World.wrldDimensions * World.wrldDimensions) * 0.75);
             //Console.WriteLine(World.numCreatures);
         }
@@ -59,7 +62,8 @@ namespace Evolution
 
         public void Simulate()
         {
-            foreach(Creature creature in creatures)
+            survivorDNA.Clear();
+            foreach (Creature creature in creatures)
             {
                 creature.Tick();
             }
@@ -75,22 +79,70 @@ namespace Evolution
         }
 
 
-        public IEnumerable<Creature> Kill()
+        public void Kill()
         {
             foreach (Creature creature in creatures)
             {
-                if(creature.yPos < World.wrldDimensions/2)
+                if (!(creature.yPos < World.wrldDimensions / 2))
                 {
-                    creature.brain = new Brain(); //generates entirely new DNA
+                    survivorDNA.Add(creature.brain.dna);
                     
                 }
-                else
-                {
-                    Creature copy = creature;
-                    creature.brain = new Brain(creature.brain.dna);
-                    yield return copy;
-                }
             }
+        }
+        public void Repopulate()
+        {
+            int limitSurvivors = survivorDNA.Count;
+            int limitNewComers = World.numCreatures - limitSurvivors;
+
+            Setup();
+
+            for (int i = 0; i < limitSurvivors; i++)
+            {
+                int xPos = 0;
+                int yPos = 0;
+
+                Random rnd = new Random();
+                bool isFree = false;
+                //Console.WriteLine("!!!!");
+                while (!isFree)
+                {
+                    xPos = rnd.Next(4, World.wrldDimensions - 5);
+                    yPos = rnd.Next(4, World.wrldDimensions - 5);
+
+                    if (World.map[yPos, xPos] == false)
+                    {
+                        isFree = true;
+                        World.map[yPos, xPos] = true;
+                    }
+                }
+                //Console.WriteLine("!!!!");
+                creatures.Add(new Creature(xPos, yPos,survivorDNA[i]));
+            }
+
+            for (int i = 0; i < limitNewComers; i++)
+            {
+                int xPos = 0;
+                int yPos = 0;
+
+                Random rnd = new Random();
+                bool isFree = false;
+                //Console.WriteLine("!!!!");
+                while (!isFree)
+                {
+                    xPos = rnd.Next(4, World.wrldDimensions - 5);
+                    yPos = rnd.Next(4, World.wrldDimensions - 5);
+
+                    if (World.map[yPos, xPos] == false)
+                    {
+                        isFree = true;
+                        World.map[yPos, xPos] = true;
+                    }
+                }
+                //Console.WriteLine("!!!!");
+                creatures.Add(new Creature(xPos, yPos));
+            }
+
         }
     }
 }

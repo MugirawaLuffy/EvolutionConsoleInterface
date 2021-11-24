@@ -18,6 +18,13 @@ namespace Evolution
             yPos = y;
             brain = new Brain();
         }
+        public Creature(int x, int y, DNA d)
+        {
+            xPos = x;
+            yPos = y;
+            brain = new Brain();
+            brain.dna = new DNA(d);
+        }
 
         public void Tick()
         {

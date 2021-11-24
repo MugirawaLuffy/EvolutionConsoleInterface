@@ -49,5 +49,44 @@ namespace GraphicsLibrary
             Console.WriteLine("Living: {0} creatures", living);
             Console.WriteLine();
         }
+
+        public static void PrintHalfMap(bool[,] map)
+        {
+            int living = 0;
+            for (int i = 0; i < Evolution.World.wrldDimensions + 4; i++)
+                Console.Write("_");
+            Console.WriteLine();
+
+            for (int y = 0; y < Evolution.World.wrldDimensions; y++)
+            {
+                Console.Write("| ");
+                for (int x = 0; x < Evolution.World.wrldDimensions; x++)
+                {
+                    if(y < Evolution.World.wrldDimensions / 2)
+                    {
+                        if (map[y, x])
+                        {
+                            Console.Write('O');
+                            living++;
+                        }
+                        else
+                            Console.Write(' ');
+                    }else
+                    {
+                        Console.Write(" ");
+                    }
+                    
+                }
+                //if(y == Evolution.World.wrldDimensions - 1)
+                //    Console.Write("  |");
+                //else
+                Console.Write("  |\n");
+            }
+
+            for (int i = 0; i < Evolution.World.wrldDimensions + 4; i++)
+                Console.Write("-");
+            Console.WriteLine("Living: {0} creatures", living);
+            Console.WriteLine();
+        }
     }
 }

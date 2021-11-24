@@ -84,7 +84,7 @@ namespace Evolution
             int steps = dna.genes.Count;
             int i = 0;
             string strand = dna.genes[step].Data;
-
+            //Console.WriteLine(strand);
             bool foundIndex = false;
             while(!foundIndex)
             {
@@ -128,7 +128,7 @@ namespace Evolution
 
     }
 
-    internal enum NeuronOrder
+    public enum NeuronOrder
     {
         LU, LD, LR, LL,
         MU, MD, MR, ML,

@@ -8,7 +8,7 @@ namespace Evolution
 {
     public class Genome
     {
-        public string Data { get; private set; }
+        public string Data { get; set; }
 
         public Genome()
         {

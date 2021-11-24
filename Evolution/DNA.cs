@@ -10,6 +10,7 @@ namespace Evolution
     {
         static int dnaLength = 9; // 9 genes
         public List<Genome> genes;
+        private int GenomeLength { get; } = 6;
 
         public DNA(int i)
         {
@@ -37,7 +38,36 @@ namespace Evolution
 
         public void Mutate()
         {
-            
+            Random rand = new Random();
+            int chanceToOne = 150;
+            if(rand.Next(0, chanceToOne)%50 == 0)
+            {
+                int index = rand.Next(0, this.genes.Count());
+                Change(this.genes[index].Data, index);
+            }
+        }
+
+        public void Change(string gene, int index)
+        {
+            char[] buffer = gene.ToCharArray();
+            //GetRandom number
+            Random random = new Random();
+            string toChange = Enum.GetNames(typeof(NeuronOrder))[random.Next(0, Enum.GetNames(typeof(NeuronOrder)).Length)];
+            if(random.Next(0,100) % 2 == 0)
+            {
+                //change first letters
+                buffer[0] = toChange[0];
+                buffer[1] = toChange[1];
+            }else
+            {
+                //change second pair
+                buffer[2] = toChange[0];
+                buffer[3] = toChange[1];
+            }
+#pragma warning disable CS8601 // Possible null reference assignment.
+            genes[index].Data = buffer.ToString();
+#pragma warning restore CS8601 // Possible null reference assignment.
+
         }
 
 

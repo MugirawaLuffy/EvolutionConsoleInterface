@@ -25,14 +25,18 @@ public static class ConsoleInterface
             Console.WriteLine("Simulating...");
             Console.WriteLine("...");
             stopWatch.Start();
-            
-            
+
+            bool[,] map = new bool[Evolution.World.wrldDimensions, Evolution.World.wrldDimensions];
             for (int i = 0; i < numTicks; i++)
             {
+                
                 if (i == 0 || i == World.wrldDimensions - 1)
                 {
-                    GraphicsLibrary.Graphics.PrintMap(eI.Simulate(i));
+                    map = eI.Simulate(i);
+                    GraphicsLibrary.Graphics.PrintMap(map);
+                    continue;
                 }
+                
                     
                 eI.Simulate();
                 
@@ -45,6 +49,10 @@ public static class ConsoleInterface
                 ts.Milliseconds / 10);
             Console.WriteLine("RunTime " + elapsedTime);
             gen++;
+
+            eI.Kill();
+            GraphicsLibrary.Graphics.PrintHalfMap(map);
+            eI.Repopulate();
         }
 
         
